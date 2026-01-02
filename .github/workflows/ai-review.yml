@@ -1,0 +1,22 @@
+name: AI Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Show event payload (debug)
+        run: |
+          echo "Event name: $GITHUB_EVENT_NAME"
+          echo "Event path: $GITHUB_EVENT_PATH"
+          cat $GITHUB_EVENT_PATH
+
+      - name: Confirm workflow runs
+        run: echo "✅ AI Code Review workflow triggered successfully"
