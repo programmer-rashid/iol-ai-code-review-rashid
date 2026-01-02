@@ -22,7 +22,23 @@ class GitHubClient:
         resp.raise_for_status()
         return resp.text
 
-    def post_comment(self, pr_number: int, body: str):
+    def post_issue_comment(self, pr_number: int, body: str):
         url = f"https://api.github.com/repos/{self.repo}/issues/{pr_number}/comments"
-        resp = requests.post(url, headers=self._headers(), json={"body": body})
-        resp.raise_for_status()
+        r = requests.post(url, headers=self._headers(), json={"body": body})
+        r.raise_for_status()
+
+    def post_inline_comment(self, pr_number, commit_sha, path, line, body):
+        url = f"https://api.github.com/repos/{self.repo}/pulls/{pr_number}/comments"
+
+        payload = {
+            "body": body,
+            "commit_id": commit_sha,
+            "path": path,
+            "line": line,
+            "side": "RIGHT",
+        }
+
+        r = requests.post(url, headers=self._headers(), json=payload)
+
+        # Inline comments may fail → fallback later
+        return r
