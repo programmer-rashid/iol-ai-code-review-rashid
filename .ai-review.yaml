@@ -1,0 +1,13 @@
+ignore:
+  - tests/
+  - docs/
+  - migrations/
+
+severity_threshold: warning
+
+focus:
+  - security
+  - performance
+  - best_practices
+
+max_comments: 10
